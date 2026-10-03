@@ -72,6 +72,12 @@
     "eslint": "^8.49.0",
     "jest": "^29.7.0"
   },
+  "packageManager": "pnpm@10.34.6",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp"
+    ]
+  },
   "jest": {
     "testEnvironment": "node",
     "testTimeout": 60000,

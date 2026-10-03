@@ -5,6 +5,13 @@ FROM node:20-bookworm-slim
 COPY . /metrics
 WORKDIR /metrics
 
+# Pin the package manager used to install this image
+RUN corepack enable \
+  && corepack prepare pnpm@10.34.6 --activate
+
+ENV PUPPETEER_SKIP_DOWNLOAD true
+ENV PUPPETEER_BROWSER_PATH "google-chrome-stable"
+
 # Setup
 RUN chmod +x /metrics/source/app/action/index.mjs \
   # Install latest chrome dev package, fonts to support major charsets and skip chromium download on puppeteer install
@@ -26,12 +33,8 @@ RUN chmod +x /metrics/source/app/action/index.mjs \
   # Clean apt/lists
   && rm -rf /var/lib/apt/lists/* \
   # Install node modules and rebuild indexes
-  && npm ci \
-  && npm run build
-
-# Environment variables
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
-ENV PUPPETEER_BROWSER_PATH "google-chrome-stable"
+  && pnpm install --frozen-lockfile \
+  && pnpm run build
 
 # Execute GitHub action
 ENTRYPOINT node /metrics/source/app/action/index.mjs

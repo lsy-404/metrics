@@ -16,7 +16,6 @@ joinmastodon
 leetcode
 MBTI
 Nie
-npx
 personaname
 pgn
 playerstats

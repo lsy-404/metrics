@@ -55,12 +55,12 @@ To create a new plugin, clone and setup this repository first:
 ```shell
 git clone https://github.com/lowlighter/metrics.git
 cd metrics/
-npm install
+pnpm install --frozen-lockfile
 ```
 
 Find a cool name and an [unused emoji](https://emojipedia.org) for your new plugin and run the following:
 ```shell
-npm run quickstart plugin <plugin_name>
+pnpm run quickstart plugin <plugin_name>
 ```
 
 > ⚠️ Community plugins cannot have the same name as official plugins. *metrics* maintainers may also reserve a plugin name for future usage and may ask you to rename it in case of conflicts
@@ -378,11 +378,11 @@ You're almost done, review the following checklist before submitting a pull requ
   - [x] `app.placeholder.js` has been updated for preview from web instances
   - [x] `examples.yml` contains workflows examples (at least one is required)
     - [x] `skip: true` has been set for `prod` attribute in each test
-  - [x] `npm run linter` yields no errors
+  - [x] `pnpm run linter` yields no errors
 - [x] I have documented my plugin
   - [x] `README.md` eventually describes complex setup or options (if applicable)
 - [x] I am ready!
-  - [x] Checkout any generated files (in fact, don't run `npm run build`)
+  - [x] Checkout any generated files (in fact, don't run `pnpm run build`)
   - [x] Commit and push your changes (commits are squashed, no need to rebase)
   - [x] Open a new [pull request](https://github.com/lowlighter/metrics/pulls)
   - [x] Post a screenshot or a render in the pull request so it can be previewed
@@ -391,4 +391,3 @@ You're almost done, review the following checklist before submitting a pull requ
 > Maintainers may request changes in some cases
 
 > 🎊 Thanks a lot for your contribution!
-

@@ -20,14 +20,21 @@ jobs:
         with:
           fetch-depth: 0
           ref: master
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.34.6
+          run_install: false
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
           node-version: 20
       - name: Setup metrics
-        run: npm ci
+        run: pnpm install --frozen-lockfile
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: "true"
       - name: Run tests
-        run: npm run test-presets
+        run: pnpm run test-presets
         env:
           HEAD_REF: ${{ inputs.ref }}
           REPO: ${{ inputs.repo }}

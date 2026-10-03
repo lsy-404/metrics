@@ -23,13 +23,21 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.34.6
+          run_install: false
       - name: Checkout master
         run: git checkout master
       - name: Format code
         run: |
-          npm install -g dprint
           mkdir -v -p /home/runner/.cache/dprint/cache
-          npx dprint fmt --config .github/config/dprint.json
+          pnpm dlx dprint@0.41.0 fmt --config .github/config/dprint.json
       - name: Publish formatted code
         run: |
           set +e
@@ -50,6 +58,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.34.6
+          run_install: false
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
@@ -59,9 +72,11 @@ jobs:
           git checkout master
           git pull
       - name: Setup metrics
-        run: npm ci
+        run: pnpm install --frozen-lockfile
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: "true"
       - name: Publish rebuild metrics indexes
-        run: npm run build -- publish
+        run: pnpm run build publish
 
   # Rebase main branch on master
   update-main:
@@ -206,12 +221,19 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.34.6
+          run_install: false
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
           node-version: 20
       - name: Setup metrics
-        run: npm ci
+        run: pnpm install --frozen-lockfile
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: "true"
       - name: Pull
         run: git pull
       - name: Checkout latest
@@ -257,12 +279,19 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.34.6
+          run_install: false
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
           node-version: 20
       - name: Setup metrics
-        run: npm ci
+        run: pnpm install --frozen-lockfile
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: "true"
       - name: Publish release
         run: node .github/scripts/release.mjs
         env:
